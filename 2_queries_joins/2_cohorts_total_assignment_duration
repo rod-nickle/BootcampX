@@ -1,0 +1,8 @@
+select sum(duration) as total_duration
+from students s 
+JOIN assignment_submissions asu
+ON asu.student_id = s.id
+JOIN cohorts c
+ON c.id = s.cohort_id
+WHERE c.name = 'FEB12'
+;
