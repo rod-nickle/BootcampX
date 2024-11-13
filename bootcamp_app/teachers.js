@@ -8,7 +8,8 @@ const pool = new Pool({
 });
 
 
-cohort_name = process.argv[2]
+const cohortName = process.argv[2];
+const queryParms = [cohortName];
 
 pool
   .query(
@@ -21,13 +22,12 @@ join students s
 on s.id = ar.student_id
 join cohorts c
 on c.id = s.cohort_id
-where c.name = '${cohort_name}'
+where c.name = $1
 order by t.name;
-`
-  )
+`, queryParms)
   .then((res) => {
     res.rows.forEach((teacher) => {
-      console.log(`${cohort_name}: ${teacher.teacher_name}`);
+      console.log(`${teacher.cohort_name}: ${teacher.teacher_name}`);
     });
   })
   .catch((err) => console.error("query error", err.stack));
